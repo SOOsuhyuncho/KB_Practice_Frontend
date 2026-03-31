@@ -28,14 +28,26 @@
 <script setup>
 import InputTodo from './components/InputTodo.vue';
 import TodoList from './components/TodoList.vue';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 
-const todoList = ref([
-  { id: 1, todo: '자전거 타기', completed: false },
-  { id: 2, todo: '딸과 공원 산책', completed: true },
-  { id: 3, todo: '일요일 애견 카페', completed: false },
-  { id: 4, todo: 'Vue 원고 집필', completed: false },
-]);
+const savedTodos = JSON.parse(
+  localStorage.getItem('my-todos') || [
+    { id: 1, todo: '자전거 타기', completed: false },
+    { id: 2, todo: '딸과 공원 산책', completed: true },
+    { id: 3, todo: '일요일 애견 카페', completed: false },
+    { id: 4, todo: 'Vue 원고 집필', completed: false },
+  ],
+);
+
+const todoList = ref(savedTodos);
+
+watch(
+  todoList,
+  (newValue) => {
+    localStorage.setItem('my-todos', JSON.stringify(newValue));
+  },
+  { deep: true },
+);
 
 const addTodo = (newTodoText) => {
   const newTodoId =

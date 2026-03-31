@@ -13,10 +13,19 @@
 <script setup>
 import TodoListItem from './TodoListItem.vue';
 
-
-
-defineEmits(['toggle-todo', 'delete-todo']);  
+defineEmits(['toggle-todo', 'delete-todo']);
 defineProps(['todoList']);
 </script>
 
-<style scoped></style>
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>

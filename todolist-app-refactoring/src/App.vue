@@ -3,6 +3,16 @@
     <div class="card shadow-sm">
       <div class="card-header text-center fs-4 fw-bold">TodoList App</div>
       <div class="card-body">
+        <div class="progress mb-4" style="height: 25px">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+            role="progressbar"
+            :style="{ width: progressPercentage + '%' }"
+          >
+            {{ progressPercentage }}% 달성!
+          </div>
+        </div>
+
         <InputTodo @add-todo="addTodo"></InputTodo>
         <div class="row my-3 text-center">
           <div class="col">
@@ -30,14 +40,18 @@ import InputTodo from './components/InputTodo.vue';
 import TodoList from './components/TodoList.vue';
 import { ref, computed, watch } from 'vue';
 
-const savedTodos = JSON.parse(
-  localStorage.getItem('my-todos') || [
-    { id: 1, todo: '자전거 타기', completed: false },
-    { id: 2, todo: '딸과 공원 산책', completed: true },
-    { id: 3, todo: '일요일 애견 카페', completed: false },
-    { id: 4, todo: 'Vue 원고 집필', completed: false },
-  ],
-);
+const parsedTodos = JSON.parse(localStorage.getItem('my-todos'));
+
+const savedTodos =
+  !parsedTodos || parsedTodos.length === 0
+    ? [
+        {
+          id: 1,
+          todo: '반가워요! 여기에 할 일을 추가해 보세요 🚀',
+          completed: false,
+        },
+      ]
+    : parsedTodos;
 
 const todoList = ref(savedTodos);
 
@@ -50,10 +64,18 @@ watch(
 );
 
 const addTodo = (newTodoText) => {
+  if (
+    todoList.value.length === 1 &&
+    todoList.value[0].todo === '반가워요! 여기에 할 일을 추가해 보세요 🚀'
+  ) {
+    todoList.value = [];
+  }
+
   const newTodoId =
     todoList.value.length > 0
       ? todoList.value[todoList.value.length - 1].id + 1
       : 1;
+
   todoList.value.push({
     id: newTodoId,
     todo: newTodoText,
@@ -79,6 +101,10 @@ const completedCount = computed(() => {
 });
 const incompletedCount = computed(() => {
   return todoList.value.filter((item) => item.completed === false).length;
+});
+const progressPercentage = computed(() => {
+  if (totalCount.value === 0) return 0;
+  return Math.round((completedCount.value / totalCount.value) * 100);
 });
 </script>
 

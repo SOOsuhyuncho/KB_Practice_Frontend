@@ -19,8 +19,9 @@ import { ref } from 'vue';
 const todo = ref('');
 const emit = defineEmits(['add-todo']);
 const addHandler = () => {
-  if (todo.value.trim() !=='') {
+  if (todo.value.trim() !== '') {
     emit('add-todo', todo.value);
+    todo.value = '';
   }
 };
 </script>

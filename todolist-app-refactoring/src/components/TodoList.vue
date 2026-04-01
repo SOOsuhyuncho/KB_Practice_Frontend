@@ -1,19 +1,20 @@
 <template>
-  <ul class="list-group">
+  <TransitionGroup name="list" tag="ul" class="list-group">
     <TodoListItem
       v-for="item in todoList"
       :key="item.id"
       :item="item"
       @delete-todo="(id) => $emit('delete-todo', id)"
       @toggle-todo="(id) => $emit('toggle-todo', id)"
+      @update-todo="(id, newText) => $emit('update-todo', id, newText)"
     ></TodoListItem>
-  </ul>
+  </TransitionGroup>
 </template>
 
 <script setup>
 import TodoListItem from './TodoListItem.vue';
 
-defineEmits(['toggle-todo', 'delete-todo']);
+defineEmits(['toggle-todo', 'delete-todo', 'update-todo']);
 defineProps(['todoList']);
 </script>
 

@@ -29,6 +29,7 @@
           :todoList="todoList"
           @toggle-todo="toggleTodo"
           @delete-todo="deleteTodo"
+          @update-todo="updateTodo"
         ></TodoList>
       </div>
     </div>
@@ -93,6 +94,11 @@ const toggleTodo = (targetId) => {
   todoList.value[index].completed = !todoList.value[index].completed;
 };
 
+const updateTodo = (targetId, newTodoText) => {
+  const index = todoList.value.findIndex((item) => item.id === targetId);
+  todoList.value[index].todo = newTodoText;
+};
+
 const totalCount = computed(() => {
   return todoList.value.length;
 });
@@ -108,4 +114,39 @@ const progressPercentage = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style>
+/* 전환 효과 */
+.btn-custom {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease-in-out !important;
+  border: none !important;
+}
+
+/* 추가 버튼  */
+.btn-custom-add {
+  background-color: #a3d2e2 !important;
+  color: #fff !important;
+}
+.btn-custom-add:hover {
+  background-color: #8cc4d6 !important;
+}
+
+/* 확인 버튼 */
+.btn-custom-confirm {
+  background-color: #8fb187 !important;
+  color: #fff !important;
+}
+.btn-custom-confirm:hover {
+  background-color: #7fa177 !important;
+}
+
+/* 삭제/취소 버튼 */
+.btn-custom-secondary {
+  background-color: #d4d1cc !important;
+  color: #333 !important;
+}
+.btn-custom-secondary:hover {
+  background-color: #c7c4be !important;
+}
+</style>

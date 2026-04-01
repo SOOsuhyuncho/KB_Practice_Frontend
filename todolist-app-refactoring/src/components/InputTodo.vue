@@ -7,7 +7,11 @@
       v-model="todo"
       placeholder="할일을 여기에 입력!"
     />
-    <button type="button" class="btn btn-primary" @click="addHandler">
+    <button
+      type="button"
+      class="btn btn-custom btn-custom-add"
+      @click="addHandler"
+    >
       추가
     </button>
   </div>
@@ -25,5 +29,3 @@ const addHandler = () => {
   }
 };
 </script>
-
-<style scoped></style>
